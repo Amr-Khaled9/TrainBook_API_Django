@@ -1,0 +1,9 @@
+Django>=5.0,<5.1
+djangorestframework
+djangorestframework-simplejwt
+mysqlclient
+django-environ
+celery
+redis
+django-filter
+drf-spectacular
