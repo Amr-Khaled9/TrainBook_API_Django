@@ -55,5 +55,16 @@ services:
       - redis
       - db
 
+  celery-beat:
+    container_name: celery_beat
+    build: .
+    command: celery -A project beat -l INFO
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
 volumes:
   mysql_data:
