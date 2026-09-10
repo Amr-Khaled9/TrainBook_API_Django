@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework.exceptions import APIException
 from rest_framework import status
 from trains.models import Seat
+from trains.utils import broadcast_seat_update
 from .models import Booking
 
 
@@ -39,5 +40,8 @@ def create_booking(user, seat_id, idempotency_key=None):
 
         seat.is_booked = True
         seat.save()
+
+        broadcast_seat_update(seat)
+    
 
         return booking

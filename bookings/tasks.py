@@ -2,6 +2,7 @@ from celery import shared_task
 from django.utils import timezone
 from datetime import timedelta
 
+from trains.utils import broadcast_seat_update
 
 @shared_task
 def expire_unpaid_bookings():
@@ -18,6 +19,7 @@ def expire_unpaid_bookings():
         booking.transition_to(Booking.Status.CANCELLED)
         booking.seat.is_booked = False
         booking.seat.save()
+        broadcast_seat_update(booking.seat)
         count += 1
 
     return f"Expired {count} bookings"

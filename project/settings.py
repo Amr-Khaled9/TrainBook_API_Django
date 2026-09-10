@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,10 @@ INSTALLED_APPS = [
     'accounts',
     'trains',
     'bookings',
+    'channels',
 ]
+
+ASGI_APPLICATION = 'project.asgi.application'
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -172,5 +176,14 @@ CELERY_BEAT_SCHEDULE = {
     'expire-unpaid-bookings-every-minute': {
         'task': 'bookings.tasks.expire_unpaid_bookings',
         'schedule': crontab(minute='*/1'),
+    },
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [env('REDIS_URL')],
+        },
     },
 }
