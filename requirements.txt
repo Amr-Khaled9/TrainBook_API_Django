@@ -10,3 +10,4 @@ drf-spectacular
 channels
 channels-redis
 daphne
+django-debug-toolbar
